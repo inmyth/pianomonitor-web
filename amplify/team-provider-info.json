@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-pianomonitorweb-dev-190137-authRole",
+            "UnauthRoleArn": "arn:aws:iam::734435107319:role/amplify-pianomonitorweb-dev-190137-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::734435107319:role/amplify-pianomonitorweb-dev-190137-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-pianomonitorweb-dev-190137-deployment",
+            "UnauthRoleName": "amplify-pianomonitorweb-dev-190137-unauthRole",
+            "StackName": "amplify-pianomonitorweb-dev-190137",
+            "StackId": "arn:aws:cloudformation:us-west-2:734435107319:stack/amplify-pianomonitorweb-dev-190137/d547ba00-dcae-11eb-a549-0ac6571dc7f9",
+            "AmplifyAppId": "d387w9r6zb5kcz"
+        },
+        "categories": {
+            "auth": {
+                "pianomonitorwebb8af0940": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d387w9r6zb5kcz",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
