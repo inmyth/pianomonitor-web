@@ -1,0 +1,6 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "pianomonitorweb61e4b6de",
+  "serviceType": "imported",
+  "region": "us-west-2"
+}

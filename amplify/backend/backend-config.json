@@ -1,17 +1,11 @@
 {
   "auth": {
-    "pianomonitorwebb8af0940": {
+    "pianomonitorweb61e4b6de": {
       "service": "Cognito",
+      "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
-      "customAuth": false
-    }
-  },
-  "hosting": {
-    "amplifyhosting": {
-      "service": "amplifyhosting",
-      "providerPlugin": "awscloudformation",
-      "type": "manual"
+      "customAuth": true
     }
   }
 }

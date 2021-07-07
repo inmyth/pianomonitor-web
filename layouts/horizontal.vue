@@ -26,29 +26,26 @@ export default {
 
 <template>
   <!-- Begin page -->
-  <amplify-authenticator>
-    <div id="wrapper">
-      <Topbar />
-      <HorizontalNavbar :type="layout.topbar" :width="layout.layoutWidth" :menu="layout.menuPosition" />
-      <!-- ============================================================== -->
-      <!-- Start Page Content here -->
-      <!-- ============================================================== -->
-      <div class="content-page">
-        <div class="content">
-          <div class="container-fluid">
-            <Nuxt />
-          </div>
+  <div id="wrapper">
+    <Topbar />
+    <HorizontalNavbar :type="layout.topbar" :width="layout.layoutWidth" :menu="layout.menuPosition" />
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+      <div class="content">
+        <div class="container-fluid">
+          <Nuxt />
         </div>
-        <!-- content -->
-        <Footer />
       </div>
-      <!-- ============================================================== -->
-      <!-- End Page content -->
-      <!-- ============================================================== -->
-      <Rightbar />
+      <!-- content -->
+      <Footer />
     </div>
-    <amplify-sign-out></amplify-sign-out>
-  </amplify-authenticator>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+    <Rightbar />
+  </div>
 </template>
 
 <style></style>

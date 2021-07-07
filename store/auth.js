@@ -3,13 +3,18 @@
 import { Auth } from "aws-amplify";
 
 export const state = () => ({
-  currentUser: sessionStorage.getItem("authUser")
+  currentUser: sessionStorage.getItem("authUser"),
+  signinUser: sessionStorage.getItem("signinUser")
 });
 
 export const mutations = {
   SET_CURRENT_USER(state, newValue) {
     state.currentUser = newValue;
     saveState("auth.currentUser", newValue);
+  },
+  SET_SIGNIN_USER(state, newValue) {
+    state.signinUser = newValue;
+    saveState("auth.signinUser", newValue);
   }
 };
 
@@ -17,6 +22,9 @@ export const getters = {
   // Whether the user is currently logged in.
   loggedIn(state) {
     return !!state.currentUser;
+  },
+  signinUser(state) {
+    return state.signinUser;
   }
 };
 
@@ -28,21 +36,33 @@ export const actions = {
     dispatch("validate");
   },
 
-  // Logs in the current user.
-  logIn({ commit, dispatch, getters }, { email, password } = {}) {
-    console.log("aaaa");
+  // Logs in the current user
+  async logIn({ commit, dispatch, getters }, { email } = {}) {
     if (getters.loggedIn) return dispatch("validate");
+    try {
+      await Auth.signUp({
+        username: email,
+        password: getRandomString(16),
+        attributes: {
+          email: email
+        },
+        validationData: []
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.code != "UsernameExistsException") {
+        throw error.message;
+      }
+    }
+    let user = await Auth.signIn(email);
+    commit("SET_SIGNIN_USER", user);
+    return user;
+  },
 
-    Auth.signIn(email, password).then(user => {
-      commit("SET_CURRENT_USER", user);
-      return user;
-    });
-
-    // return getFirebaseBackend().loginUser(email, password).then((response) => {
-    //     const user = response
-    //     commit('SET_CURRENT_USER', user)
-    //     return user
-    // });
+  async verify({ commit, dispatch, getters }, { code } = {}) {
+    let verifiedUser = await Auth.sendCustomChallengeAnswer(getters.signinUser, code);
+    await Auth.currentSession();
+    commit("SET_CURRENT_USER", verifiedUser);
   },
 
   // Logs out the current user.
@@ -59,43 +79,6 @@ export const actions = {
           reject(this._handleError(error));
         });
     });
-  },
-
-  // register the user
-  register({ commit, dispatch, getters }, { email, password } = {}) {
-    if (getters.loggedIn) return dispatch("validate");
-    Auth.signUp({
-      email,
-      password,
-      attributes: {
-        email // optional
-        // other custom attributes
-      }
-    }).then(response => {
-      console.log(response);
-    });
-  },
-
-  // register the user
-  // eslint-disable-next-line no-unused-vars
-  resetPassword({ commit, dispatch, getters }, { email } = {}) {
-    if (getters.loggedIn) return dispatch("validate");
-
-    // return getFirebaseBackend().forgetPassword(email).then((response) => {
-    //     const message = response.data
-    //     return message
-    // });
-  },
-
-  // Validates the current user's token and refreshes it
-  // with new data from the API.
-  // eslint-disable-next-line no-unused-vars
-  async validate({ commit, state }) {
-    if (!state.currentUser) return Promise.resolve(null);
-
-    const { user } = await Auth.currentAuthenticatedUser();
-    commit("SET_CURRENT_USER", user);
-    return user;
   }
 };
 
@@ -107,4 +90,16 @@ function saveState(key, state) {
   if (process.browser) {
     localStorage.setItem(key, JSON.stringify(state));
   }
+}
+
+function getRandomString(number) {
+  const randomValues = new Uint8Array(number);
+  crypto.getRandomValues(randomValues);
+  return Array.from(randomValues)
+    .map(intToHex)
+    .join("");
+}
+
+function intToHex(nr) {
+  return nr.toString(16).padStart(2, "0");
 }
