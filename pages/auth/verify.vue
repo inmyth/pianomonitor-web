@@ -1,5 +1,5 @@
 <script>
-import { required, email } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 
 /**
  * Login component
@@ -7,7 +7,7 @@ import { required, email } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
-      email: "",
+      code: "",
       submitted: false,
       authError: null,
       tryingToLogIn: false,
@@ -24,9 +24,8 @@ export default {
   },
   created() {},
   validations: {
-    email: {
-      required,
-      email
+    code: {
+      required
     }
   },
   methods: {
@@ -42,12 +41,12 @@ export default {
           this.tryingToLogIn = true;
           this.authError = null;
           try {
-            await this.$store.dispatch("auth/logIn", {
-              email: this.email
+            await this.$store.dispatch("auth/verifyCode", {
+              code: this.code
             });
             this.tryingToLogIn = false;
             this.isAuthError = false;
-            this.$router.push(this.localePath({ name: "account-verify" }));
+            this.$router.push("/");
           } catch (error) {
             this.tryingToLogIn = false;
             this.authError = error ? error : "";
@@ -80,7 +79,7 @@ export default {
                 </span>
               </nuxt-link>
             </div>
-            <p class="text-muted mb-4 mt-3"></p>
+            <p class="mb-4 mt-3">Check the email we sent you and enter the code.</p>
           </div>
 
           <form action="#" @submit.prevent="tryToLogIn">
@@ -88,15 +87,14 @@ export default {
 
             <b-alert variant="danger" class="mt-3" v-model="isAuthError" :show="notificationAutoCloseDuration" dismissible>{{ authError }}</b-alert>
             <div class="form-group mb-3">
-              <input class="form-control" v-model="email" type="email" id="emailaddress" placeholder="Enter your email" :class="{ 'is-invalid': submitted && $v.email.$error }" />
-              <div v-if="submitted && $v.email.$error" class="invalid-feedback">
-                <span v-if="!$v.email.required">Email is required.</span>
-                <span v-if="!$v.email.email">Please enter valid email.</span>
+              <input class="form-control" v-model="code" type="text" id="code" placeholder="Enter the code" :class="{ 'is-invalid': submitted && $v.code.$error }" />
+              <div v-if="submitted && $v.code.$error" class="invalid-feedback">
+                <span v-if="!$v.code.required">Code is required.</span>
               </div>
             </div>
 
             <div class="form-group mb-0 text-center">
-              <button class="btn btn-primary btn-block" type="submit">Next</button>
+              <button class="btn btn-primary btn-block" type="submit">Log In</button>
             </div>
           </form>
 

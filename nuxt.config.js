@@ -45,14 +45,12 @@ export default {
    */
   plugins: [
     "~/plugins/amplify.js",
-    "~/plugins/fireauth.js",
-    "~/plugins/fakeauth.js",
     "~/plugins/simplebar.js",
     "~/plugins/vue-click-outside.js",
     "~/plugins/vuelidate.js",
     "~/plugins/draggable.js",
     "~/plugins/vue-slidebar.js",
-    "~/plugins/tour.js",
+    // "~/plugins/tour.js",
     "~/plugins/vue-lightbox.js",
     "~/plugins/mask.js",
     "~/plugins/quill-editor.js",
