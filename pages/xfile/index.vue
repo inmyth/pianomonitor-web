@@ -79,10 +79,15 @@ export default {
       this.itemToDelete = "";
     },
     async confirmDelModal() {
-      await this.delete(this.itemToDelete);
-      var index = this.fileManagerData.indexOf(this.itemToDelete);
-      this.fileManagerData.splice(index, 1);
-      this.resetDelModal();
+      try {
+        await this.delete(this.itemToDelete);
+        var index = this.fileManagerData.indexOf(this.itemToDelete);
+        this.fileManagerData.splice(index, 1);
+        this.resetDelModal();
+        this.$store.dispatch("notification/success", { message: "File deleted" });
+      } catch (error) {
+        this.$store.dispatch("notification/error", { message: "File cannot be deleted" });
+      }
     }
   },
   middleware: "router-auth"
