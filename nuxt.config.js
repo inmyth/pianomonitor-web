@@ -90,15 +90,22 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
-  env: {
-    auth: process.env.VUE_APP_DEFAULT_AUTH,
-    apikey: process.env.VUE_APP_APIKEY,
-    authdomain: process.env.VUE_APP_AUTHDOMAIN,
-    databaseurl: process.env.VUE_APP_DATABASEURL,
-    projectid: process.env.VUE_APP_PROJECTId,
-    storgebucket: process.env.VUE_APP_STORAGEBUCKET,
-    message: process.env.VUE_APP_MESSAGINGSENDERID,
-    appid: process.env.VUE_APP_APPId,
-    measurement: process.env.VUE_APP_MEASUREMENTID
+  publicRuntimeConfig: {
+    gatewayEndpoint: process.env.VUE_APP_API_GATEWAY_ENDPOINT
   }
+  // privateRuntimeConfig: {
+  //   apiSecret: process.env.API_SECRET
+  // }
+  // env: {
+  //   auth: process.env.VUE_APP_DEFAULT_AUTH,
+  //   apikey: process.env.VUE_APP_APIKEY,
+  //   authdomain: process.env.VUE_APP_AUTHDOMAIN,
+  //   databaseurl: process.env.VUE_APP_DATABASEURL,
+  //   projectid: process.env.VUE_APP_PROJECTId,
+  //   storgebucket: process.env.VUE_APP_STORAGEBUCKET,
+  //   message: process.env.VUE_APP_MESSAGINGSENDERID,
+  //   appid: process.env.VUE_APP_APPId,
+  //   measurement: process.env.VUE_APP_MEASUREMENTID,
+  //   gatewayEndpoint: process.env.VUE_APP_API_GATEWAY_ENDPOINT
+  // }
 };

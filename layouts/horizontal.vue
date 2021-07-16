@@ -9,27 +9,12 @@ export default {
   data() {
     return {
       alert: {
-        msg: "aaaa",
+        msg: "",
         bg: "bg-success",
         show: false
       }
     };
   },
-  // watch: {
-  //   notificationState(s, old) {
-  //     console.log("caadasd");
-  //     this.alert.msg = s.message;
-  //     this.alert.show = 3;
-  //     if (s.type == "success") {
-  //       this.alert.bg = "bg-success";
-  //     } else if (s.type == "error") {
-  //       this.alert.bg = "bg-danger";
-  //     } else {
-  //       this.alert.bg = "bg-primary";
-  //     }
-  //     // console.log(this.$store.state.drawer)
-  //   }
-  // },
   computed: {
     notificationState() {
       let s = this.$store.state.notification;

@@ -28,6 +28,17 @@ export const actions = {
     dispatch("isAuthenticated");
   },
 
+  async getAuthToken({}) {
+    try {
+      let session = await Auth.currentSession();
+      return session.idToken.jwtToken;
+    } catch (error) {
+      console.log("aaaa " + error);
+
+      return null;
+    }
+  },
+
   async isAuthenticated({ commit }) {
     try {
       await Auth.currentSession();

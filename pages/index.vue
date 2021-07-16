@@ -20,6 +20,10 @@
  * Basic Tables component
  */
 export default {
+  mounted() {
+    // let creds = await this.$store.dispatch("auth/getCurrentCredentials");
+    this.$store.dispatch("service/getDevices").then(p => console.log(p.data));
+  },
   head() {
     return {
       title: `${this.title} | Minton - Nuxtjs Responsive Admin Dashboard Template`

@@ -23,7 +23,26 @@ export default {
   data() {
     return {
       title: "Graph",
-      data: null,
+      items: [
+        {
+          text: "Minton",
+          href: "/"
+        },
+        {
+          text: "Charts",
+          href: "/"
+        }
+      ],
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: "",
+            backgroundColor: "",
+            data: []
+          }
+        ]
+      },
       options: {
         responsive: true,
         maintainAspectRatio: false
@@ -35,22 +54,11 @@ export default {
   },
   methods: {
     fillData() {
-      if (this.data == null) {
-        this.data = {
-          labels: [1, 2, 3, 4, 5, 6, 7],
-          datasets: [
-            {
-              label: "Data One",
-              backgroundColor: "#f87979",
-              data: []
-            }
-          ]
-        };
-      } else if (this.data.datasets[0].data.length < 10) {
+      if (this.data.datasets[0].data.length < 15) {
         let d = [...this.data.datasets[0].data];
         d.push(this.getRandomInt());
         this.data = {
-          labels: [1, 2, 3, 4, 5, 6, 7],
+          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
           datasets: [
             {
               label: "Data One",
@@ -64,7 +72,7 @@ export default {
         d.shift();
         d.push(this.getRandomInt());
         this.data = {
-          labels: [1, 2, 3, 4, 5, 6, 7],
+          labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
           datasets: [
             {
               label: "Data One",
@@ -74,7 +82,7 @@ export default {
           ]
         };
       }
-      setTimeout(this.fillData, 2000);
+      setTimeout(this.fillData, 1000);
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
