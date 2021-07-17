@@ -7,7 +7,9 @@
           <div class="col-lg-8"></div>
           <div class="col-lg-4">
             <div class="text-lg-right mt-3 mt-lg-0">
-              <a class="btn text-white btn-primary" href="javascript: void(0);" @click="showmodal = true"> <i class="mdi mdi-plus-circle mr-1"></i> Add New </a>
+              <NuxtLink :to="localePath({ name: 'new' })"
+                ><a class="btn text-white btn-primary"><i class="mdi mdi-plus-circle mr-1"></i> Add New </a></NuxtLink
+              >
             </div>
           </div>
           <!-- end col-->
