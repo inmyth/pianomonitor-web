@@ -15,23 +15,30 @@ export default {
       }
     };
   },
-  computed: {
-    notificationState() {
-      let s = this.$store.state.notification;
-      this.alert.msg = s.message;
-      if (s.type === null) {
-        this.alert.show = false;
-        return s;
-      }
-      this.alert.show = 3;
+  watch: {
+    "$store.state.notification": {
+      handler() {
+        let s = this.$store.state.notification;
+        this.alert.msg = s.message;
+        if (s.type === null) {
+          this.alert.show = false;
+          return s;
+        }
 
-      if (s.type == "success") {
-        this.alert.bg = "bg-success";
-      } else if (s.type == "danger") {
-        this.alert.bg = "bg-danger";
-      }
-      return s;
-    },
+        if (s.type == "success") {
+          this.alert.bg = "bg-success";
+        } else if (s.type == "danger") {
+          this.alert.bg = "bg-danger";
+        }
+        this.alert.show = 3;
+
+        return s;
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  computed: {
     ...mapState(["layout"])
   },
   mounted() {

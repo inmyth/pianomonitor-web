@@ -1,6 +1,6 @@
 <script>
 import { required, maxLength } from "vuelidate/lib/validators";
-import { saveAs } from "file-saver";
+// import { FileSaver } from "file-saver";
 const FileSaver = require("file-saver");
 
 export default {
@@ -24,10 +24,7 @@ export default {
       ],
 
       form: {
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
+        name: ""
       },
 
       submit: false,
@@ -40,7 +37,7 @@ export default {
         cert: ""
       },
       isProcessing: false,
-      isFirstPage: false
+      isFirstPage: true
     };
   },
   validations: {
@@ -53,27 +50,33 @@ export default {
   },
 
   methods: {
-    handleSubmit(e) {
+    async handleSubmit(e) {
       this.submitted = true;
-
-      // stop here if form is invalid
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.isFirstPage = false;
+        this.isProcessing = true;
+        let res = await this.$store.dispatch("service/createDevice", { name: this.form.name });
+        this.isProcessing = false;
+        if (res) {
+          this.isFirstPage = false;
+          this.secondPage.privateKey = res.privateKey;
+          this.secondPage.publicKey = res.publicKey;
+          this.secondPage.cerr = res.certificatePem;
+        }
       }
     },
     downloadPrivateKey() {
-      var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+      var blob = new Blob([this.secondPage.privateKey], { type: "text/plain;charset=utf-8" });
       FileSaver.saveAs(blob, `${this.form.name}-private.pem.key`);
       this.secondPage.isPrivateKeyDowloaded = true;
     },
     downloadPublicKey() {
-      var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+      var blob = new Blob([this.secondPage.publicKey], { type: "text/plain;charset=utf-8" });
       FileSaver.saveAs(blob, `${this.form.name}-public.pem.key`);
       this.secondPage.isPublicKeyDownloaded = true;
     },
     dowloadCert() {
-      var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+      var blob = new Blob([this.secondPage.cert], { type: "text/plain;charset=utf-8" });
       FileSaver.saveAs(blob, `${this.form.name}.cert.pem`);
     }
   },
@@ -101,10 +104,10 @@ export default {
           </div>
 
           <div class="form-group text-right m-b-0">
-            <b-button variant="primary" type="submit">
+            <b-button variant="primary" type="submit" :disabled="isProcessing">
               発信
-              <b-spinner small></b-spinner>
-              <span class="sr-only">Loading...</span>
+              <b-spinner v-if="isProcessing" small></b-spinner>
+              <span v-if="isProcessing" class="sr-only">Loading...</span>
             </b-button>
           </div>
         </form>
@@ -133,7 +136,7 @@ export default {
           ECC 256 ビットキー: <a href="https://www.amazontrust.com/repository/AmazonRootCA3.pem" target="_blank">Amazon Root CA 3<i class="mdi mdi-file"></i>。</a>
         </p>
         <p>
-          <NuxtLink :to="localePath({ name: '/' })">
+          <NuxtLink to="/">
             <a class="btn text-white btn-success"> 終了 </a>
           </NuxtLink>
         </p>

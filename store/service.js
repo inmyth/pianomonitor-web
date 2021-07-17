@@ -18,6 +18,23 @@ export const actions = {
     } catch (error) {
       return buildMessage(null, error);
     }
+  },
+
+  async createDevice({ commit, dispatch }, { name } = {}) {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${this.$config.gatewayEndpoint}/device/create`,
+        headers: { Authorization: await getAuthHeader(dispatch) },
+        data: {
+          name: name
+        }
+      });
+      return res.data;
+    } catch (error) {
+      dispatch("notification/error", "デバイスの登録を失敗しますた。", { root: true });
+      return null;
+    }
   }
 };
 
