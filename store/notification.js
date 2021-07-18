@@ -20,7 +20,6 @@ export const mutations = {
 
 export const actions = {
   success({ commit }, message) {
-    console.log(message);
     commit("success", message);
   },
   error({ commit }, message) {

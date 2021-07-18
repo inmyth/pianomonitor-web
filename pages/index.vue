@@ -16,20 +16,25 @@
         </div>
         <p class="sub-header"></p>
 
-        <b-table fixed class="minimal text-left" :items="devices" :fields="fields">
+        <b-table fixed class="minimal text-left" :items="devices" :fields="fields" show-empty>
+          <template #empty>
+            <h5>登録済デバイスは無いです。</h5>
+          </template>
           <template #cell(name)="data">
             <NuxtLink :to="localePath({ name: 'thing-id', params: { id: data.item.clientId } })">{{ data.item.clientName }}</NuxtLink>
           </template>
           <template #cell(created)="data">
             {{ tsToString(data.item.creationTs) }}
           </template>
-          <template #cell(delete)>
-            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(tableData.name)"> <i class="fe-x"></i></a>
+          <template #cell(delete)="data">
+            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(data.item.clientId, data.item.clientName)"> <i class="fe-x"></i></a>
           </template>
         </b-table>
-        <p v-if="this.isEmpty">登録されたデバイスは無しです。</p>
       </div>
-      <b-modal id="delModal" @hidden="resetDelModal" @ok="executeDelete"> Delete {{ this.delete.name }} ? </b-modal>
+      <b-modal id="delModal" @hidden="resetDelModal" @ok="executeDelete" title="削除を確認">
+        <p>以下のでアイスを消しますか ? 付いている証明書とキーは無効にします。</p>
+        <h5>{{ toDelete.name }}</h5>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -69,8 +74,8 @@ export default {
         { key: "delete", label: "", sortable: false, tdClass: "text-right" }
       ],
       devices: [],
-      isEmpty: false,
-      delete: {
+      // isEmpty: false,
+      toDelete: {
         id: null,
         name: null
       }
@@ -84,23 +89,19 @@ export default {
       return dtFormat.format(new Date(ts * 1000));
     },
     openDelModal(id, name) {
-      this.delete.id = id;
-      this.delete.name = name;
+      this.toDelete.id = id;
+      this.toDelete.name = name;
     },
     resetDelModal() {
-      this.delete.id = null;
-      this.delete.name = null;
+      this.toDelete.id = null;
+      this.toDelete.name = null;
     },
     async executeDelete() {
-      // try {
-      //   await this.delete(this.itemToDelete);
-      //   var index = this.fileManagerData.indexOf(this.itemToDelete);
-      //   this.fileManagerData.splice(index, 1);
-      //   this.resetDelModal();
-      //   this.$store.dispatch("notification/success", { message: "File deleted" });
-      // } catch (error) {
-      //   this.$store.dispatch("notification/error", { message: "File cannot be deleted" });
-      // }
+      const id = this.toDelete.id.slice();
+      const name = this.toDelete.name.slice();
+      this.$store.dispatch("service/removeDeviceFromState", { clientId: id });
+      const x = await this.$store.dispatch("service/deleteDevice", { clientId: id });
+      if (x) this.$store.dispatch("notification/success", `${name}が削除されました。`);
     }
   },
   middleware: "router-auth"

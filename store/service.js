@@ -26,7 +26,7 @@ export const actions = {
     }
   },
 
-  async createDevice({ commit, dispatch }, { name } = {}) {
+  async createDevice({ dispatch }, { name } = {}) {
     try {
       const res = await axios({
         method: "POST",
@@ -41,6 +41,28 @@ export const actions = {
       dispatch("notification/error", "デバイスの登録を失敗しますた。", { root: true });
       return null;
     }
+  },
+
+  async deleteDevice({ dispatch }, { clientId }) {
+    try {
+      await axios({
+        method: "DELETE",
+        url: `${this.$config.gatewayEndpoint}/device/delete`,
+        headers: { Authorization: await getAuthHeader(dispatch) },
+        data: {
+          clientId: clientId
+        }
+      });
+      return true;
+    } catch (error) {
+      dispatch("notification/error", `エラーが発生しました：${error}`, { root: true });
+      return false;
+    }
+  },
+
+  removeDeviceFromState({ commit, state }, { clientId } = {}) {
+    const x = [...state.devices].filter(p => p.clientId != clientId);
+    commit("SET_DEVICES", x);
   }
 };
 
