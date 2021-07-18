@@ -61,7 +61,7 @@ export default {
           this.isFirstPage = false;
           this.secondPage.privateKey = res.privateKey;
           this.secondPage.publicKey = res.publicKey;
-          this.secondPage.cerr = res.certificatePem;
+          this.secondPage.cert = res.certificatePem;
         }
       }
     },
