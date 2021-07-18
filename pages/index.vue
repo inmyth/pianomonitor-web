@@ -16,16 +16,20 @@
         </div>
         <p class="sub-header"></p>
 
-        <b-table class="minimal text-left" responsive :items="devices" :fields="fields">
+        <b-table fixed class="minimal text-left" :items="devices" :fields="fields">
           <template #cell(name)="data">
             <NuxtLink :to="localePath({ name: 'thing-id', params: { id: data.item.clientId } })">{{ data.item.clientName }}</NuxtLink>
           </template>
           <template #cell(created)="data">
             {{ tsToString(data.item.creationTs) }}
           </template>
+          <template #cell(delete)>
+            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(tableData.name)"> <i class="fe-x"></i></a>
+          </template>
         </b-table>
         <p v-if="this.isEmpty">登録されたデバイスは無しです。</p>
       </div>
+      <b-modal id="delModal" @hidden="resetDelModal" @ok="executeDelete"> Delete {{ this.delete.name }} ? </b-modal>
     </div>
   </div>
 </template>
@@ -61,10 +65,15 @@ export default {
       items: [],
       fields: [
         { key: "name", label: "Name", sortable: true },
-        { key: "created", label: "Date", sortable: true }
+        { key: "created", label: "Date", sortable: true },
+        { key: "delete", label: "", sortable: false, tdClass: "text-right" }
       ],
       devices: [],
-      isEmpty: false
+      isEmpty: false,
+      delete: {
+        id: null,
+        name: null
+      }
     };
   },
   methods: {
@@ -73,6 +82,25 @@ export default {
       const dtFormat = new Intl.DateTimeFormat("ja-JP", options);
 
       return dtFormat.format(new Date(ts * 1000));
+    },
+    openDelModal(id, name) {
+      this.delete.id = id;
+      this.delete.name = name;
+    },
+    resetDelModal() {
+      this.delete.id = null;
+      this.delete.name = null;
+    },
+    async executeDelete() {
+      // try {
+      //   await this.delete(this.itemToDelete);
+      //   var index = this.fileManagerData.indexOf(this.itemToDelete);
+      //   this.fileManagerData.splice(index, 1);
+      //   this.resetDelModal();
+      //   this.$store.dispatch("notification/success", { message: "File deleted" });
+      // } catch (error) {
+      //   this.$store.dispatch("notification/error", { message: "File cannot be deleted" });
+      // }
     }
   },
   middleware: "router-auth"
