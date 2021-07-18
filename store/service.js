@@ -1,22 +1,28 @@
 import axios from "axios";
 
-export const state = () => ({});
+export const state = () => ({
+  devices: []
+});
 
-export const mutations = {};
-
-// const endpoint = this.$config.gatewayEndpoint;
+export const mutations = {
+  SET_DEVICES(state, newValue) {
+    state.devices = newValue;
+  }
+};
 
 export const actions = {
-  async getDevices({ commit, dispatch }, {} = {}) {
+  async refreshDevices({ commit, dispatch }, {} = {}) {
     try {
       const res = await axios({
         method: "GET",
         url: `${this.$config.gatewayEndpoint}/device/list`,
         headers: { Authorization: await getAuthHeader(dispatch) }
       });
-      return buildMessage(res, null);
+      commit("SET_DEVICES", res.data);
+      return true;
     } catch (error) {
-      return buildMessage(null, error);
+      dispatch("notification/error", `エラーが発生しました：${error}`, { root: true });
+      return false;
     }
   },
 
@@ -40,18 +46,4 @@ export const actions = {
 
 async function getAuthHeader(dispatch) {
   return await dispatch("auth/getAuthToken", null, { root: true });
-}
-
-function buildMessage(data, error) {
-  if (error) {
-    return {
-      error: error,
-      data: null
-    };
-  } else {
-    return {
-      error: null,
-      data: data
-    };
-  }
 }
