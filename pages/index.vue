@@ -21,7 +21,7 @@
             <h5>登録済デバイスは無いです。</h5>
           </template>
           <template #cell(name)="data">
-            <NuxtLink :to="localePath({ name: 'thing-id', params: { id: data.item.clientId } })">{{ data.item.clientName }}</NuxtLink>
+            <NuxtLink :to="localePath({ name: 'device-id-id', params: { id: data.item.clientId } })">{{ data.item.clientName }}</NuxtLink>
           </template>
           <template #cell(created)="data">
             {{ tsToString(data.item.creationTs) }}
