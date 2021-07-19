@@ -46,6 +46,7 @@ export default {
   mounted() {
     this.isLoading = true;
     this.$store.dispatch("service/refreshDevices");
+    this.$store.dispatch("auth/getAuthSession");
   },
   head() {
     return {

@@ -41,8 +41,16 @@ export const actions = {
     try {
       await Auth.currentSession();
       return true;
-    } catch {
+    } catch (error) {
       return false;
+    }
+  },
+
+  async getCurrentCredentials({ commit }) {
+    try {
+      return await Auth.currentCredentials();
+    } catch (error) {
+      return null;
     }
   },
 

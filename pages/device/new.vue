@@ -77,7 +77,7 @@ export default {
     },
     dowloadCert() {
       var blob = new Blob([this.secondPage.cert], { type: "text/plain;charset=utf-8" });
-      FileSaver.saveAs(blob, `${this.form.name}.cert.pem`);
+      FileSaver.saveAs(blob, `${this.form.name}.pem.crt`);
     }
   },
   middleware: "router-auth"

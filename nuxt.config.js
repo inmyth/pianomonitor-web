@@ -91,7 +91,8 @@ export default {
    */
   build: {},
   publicRuntimeConfig: {
-    gatewayEndpoint: process.env.VUE_APP_API_GATEWAY_ENDPOINT
+    gatewayEndpoint: process.env.VUE_APP_API_GATEWAY_ENDPOINT,
+    iotEndpont: process.env.VUE_APP_IOT_ENDPOINT
   }
   // privateRuntimeConfig: {
   //   apiSecret: process.env.API_SECRET

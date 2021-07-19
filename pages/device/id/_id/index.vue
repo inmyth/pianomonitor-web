@@ -11,6 +11,7 @@
 </template>
 <script>
 import LineChart from "./LineChart";
+
 export default {
   head() {
     return {
@@ -19,6 +20,42 @@ export default {
   },
   components: {
     LineChart
+  },
+  async created() {
+    window.addEventListener("beforeunload", this.beforeWindowUnload);
+    // window.onbeforeunload = function(e) {
+    //   console.log("9888");
+    //   return undefined;
+    // };
+    await this.$store.dispatch("iot/connect", {});
+    // const deviceIot = awsIot.device({
+    //   region: "us-west-2",
+    //   clientId: "b2f187c3-c806-4c08-afc0-2f00070c0fe8",
+    //   accessKeyId: creds.accessKey,
+    //   secretKey: creds.secretKey,
+    //   sessionToken: creds.sessionToken,
+    //   protocol: "wss",
+    //   port: 443,
+    //   host: "azyj6m3vu5398-ats.iot.us-west-2.amazonaws.com"
+    // });
+    // deviceIot.subscribe("b2f187c3-c806-4c08-afc0-2f00070c0fe8", undefined, function(err, granted) {
+    //   if (err) {
+    //     console.log("subscribe error: " + err);
+    //   } else {
+    //     console.log("subscribe success");
+    //   }
+    // });
+
+    // deviceIot.on("message", function(_topic, payload) {
+    //   console.log("> " + payload.toString());
+    // });
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("asdasdas");
+    next();
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.beforeWindowUnload);
   },
   data() {
     return {
@@ -86,6 +123,17 @@ export default {
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    },
+    beforeWindowUnload(e) {
+      console.log("babababa");
+      // if (this.confirmStayInDirtyForm()) {
+      //   // Cancel the event
+      //   e.preventDefault();
+      //   // Chrome requires returnValue to be set
+      //   e.returnValue = "";
+      // }
+      e.returnValue = undefined;
+      return undefined;
     }
   },
   middleware: "router-auth"

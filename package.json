@@ -20,16 +20,19 @@
     "apexcharts": "^3.20.0",
     "aws-amplify": "^4.1.2",
     "aws-amplify-vue": "^2.1.5",
+    "aws-sdk": "^2.948.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.21.2",
     "c3": "^0.7.20",
     "chart.js": "^2.9.3",
     "chartist": "^0.11.4",
+    "crypto-js": "^4.0.0",
     "file-saver": "^2.0.5",
     "firebase": "^7.19.1",
     "nuxt": "^2.15.2",
     "nuxt-i18n": "^6.15.0",
+    "paho-mqtt": "^1.1.0",
     "simplebar-vue": "^2.0.0-beta.4",
     "sweetalert2": "^9.17.1",
     "v-click-outside": "^3.1.0",
@@ -59,5 +62,10 @@
   "devDependencies": {
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.1"
+  },
+  "browser": {
+    "fs": false,
+    "tls": false,
+    "path": false
   }
 }
