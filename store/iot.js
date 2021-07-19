@@ -9,32 +9,45 @@ export const actions = {
   async connect({ dispatch }) {
     const host = "azyj6m3vu5398-ats.iot.us-west-2.amazonaws.com";
     const topic = "b2f187c3-c806-4c08-afc0-2f00070c0fe8";
-    const clientId = topic;
+    const clientId = "b2f187c3-c806-4c08-afc0-2f00070c0fe8";
     const region = "us-west-2";
     const creds = await dispatch("auth/getCurrentCredentials", undefined, { root: true });
 
     var endpoint = SigV4Utils.getSignedUrl(host, region, creds);
-
     const client = new Paho.Client(endpoint, clientId);
-
+    client.onMessageArrived = onMessageArrived;
+    client.onConnectionLost = onConnectionLost;
     client.connect({
       useSSL: true,
       mqttVersion: 4,
       onSuccess: function() {
-        client.subscribe(topic, {
-          onSuccess: function() {
-            console.log("success");
+        console.log("Connected to MQTT");
+
+        client.subscribe(
+          topic,
+
+          {
+            onSuccess: function() {
+              console.log("Subsribed to topic");
+            }
           }
-        });
+        );
       },
       onFailure: function(e) {
         console.log(e);
       }
     });
 
-    client.onMessageArrived = function(message) {
-      console.log(message);
-    };
+    function onConnectionLost(responseObject) {
+      console.log(responseObject);
+    }
+
+    function onMessageArrived(message) {
+      console.log("onMessageArrived:" + message.payloadString);
+    }
+    // client.onMessageArrived = function(message) {
+    //   console.log(message);
+    // };
   }
 };
 
