@@ -6,13 +6,14 @@ export const state = () => ({});
 export const mutations = {};
 
 export const actions = {
-  async connect({ dispatch }) {
+  async connect({ dispatch }, { deviceId } = {}) {
     const host = "azyj6m3vu5398-ats.iot.us-west-2.amazonaws.com";
-    const topic = "b2f187c3-c806-4c08-afc0-2f00070c0fe8";
-    const clientId = "b2f187c3-c806-4c08-afc0-2f00070c0fe8";
+    const clientId = randomString();
     const region = "us-west-2";
     const creds = await dispatch("auth/getCurrentCredentials", undefined, { root: true });
 
+    const topic = `${creds.identityId}/${deviceId}`;
+    console.log(topic);
     var endpoint = SigV4Utils.getSignedUrl(host, region, creds);
     const client = new Paho.Client(endpoint, clientId);
     client.onMessageArrived = onMessageArrived;
@@ -87,6 +88,11 @@ SigV4Utils.getSignedUrl = function(host, region, credentials) {
   return requestUrl;
 };
 
+function randomString() {
+  return Math.random()
+    .toString(36)
+    .slice(-5);
+}
 // function SigV4Utils() {}
 
 // SigV4Utils.sign = function(key, msg) {

@@ -21,13 +21,13 @@
             <h5>登録済デバイスは無いです。</h5>
           </template>
           <template #cell(name)="data">
-            <NuxtLink :to="localePath({ name: 'device-id-id', params: { id: data.item.clientId } })">{{ data.item.clientName }}</NuxtLink>
+            <NuxtLink :to="localePath({ name: 'device-id-id', params: { id: data.item.deviceId } })">{{ data.item.deviceName }}</NuxtLink>
           </template>
           <template #cell(created)="data">
             {{ tsToString(data.item.creationTs) }}
           </template>
           <template #cell(delete)="data">
-            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(data.item.clientId, data.item.clientName)"> <i class="fe-x"></i></a>
+            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(data.item.deviceId, data.item.deviceName)"> <i class="fe-x"></i></a>
           </template>
         </b-table>
       </div>
@@ -46,7 +46,6 @@ export default {
   mounted() {
     this.isLoading = true;
     this.$store.dispatch("service/refreshDevices");
-    this.$store.dispatch("auth/getAuthSession");
   },
   head() {
     return {
@@ -100,8 +99,8 @@ export default {
     async executeDelete() {
       const id = this.toDelete.id.slice();
       const name = this.toDelete.name.slice();
-      this.$store.dispatch("service/removeDeviceFromState", { clientId: id });
-      const x = await this.$store.dispatch("service/deleteDevice", { clientId: id });
+      this.$store.dispatch("service/removeDeviceFromState", { deviceId: id });
+      const x = await this.$store.dispatch("service/deleteDevice", { deviceId: id });
       if (x) this.$store.dispatch("notification/success", `${name}が削除されました。`);
     }
   },

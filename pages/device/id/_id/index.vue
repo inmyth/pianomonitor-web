@@ -21,13 +21,14 @@ export default {
   components: {
     LineChart
   },
+  mounted() {},
   async created() {
     window.addEventListener("beforeunload", this.beforeWindowUnload);
     // window.onbeforeunload = function(e) {
     //   console.log("9888");
     //   return undefined;
     // };
-    await this.$store.dispatch("iot/connect", {});
+    await this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id });
     // const deviceIot = awsIot.device({
     //   region: "us-west-2",
     //   clientId: "b2f187c3-c806-4c08-afc0-2f00070c0fe8",

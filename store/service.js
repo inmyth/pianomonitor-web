@@ -43,14 +43,14 @@ export const actions = {
     }
   },
 
-  async deleteDevice({ dispatch }, { clientId }) {
+  async deleteDevice({ dispatch }, { deviceId }) {
     try {
       await axios({
         method: "DELETE",
         url: `${this.$config.gatewayEndpoint}/device/delete`,
         headers: { Authorization: await getAuthHeader(dispatch) },
         data: {
-          clientId: clientId
+          deviceId: deviceId
         }
       });
       return true;
@@ -60,8 +60,8 @@ export const actions = {
     }
   },
 
-  removeDeviceFromState({ commit, state }, { clientId } = {}) {
-    const x = [...state.devices].filter(p => p.clientId != clientId);
+  removeDeviceFromState({ commit, state }, { deviceId } = {}) {
+    const x = [...state.devices].filter(p => p.deviceId != deviceId);
     commit("SET_DEVICES", x);
   }
 };
