@@ -105,7 +105,7 @@ export default {
      * Logout user
      */
     logoutUser() {
-      if (process.env.auth === "cognito") {
+      if (this.$config.auth === "cognito") {
         this.$store.dispatch("auth/signOut");
       } else if (process.env.auth === "fakebackend") {
         this.$store.dispatch("authfack/logout");
@@ -125,18 +125,12 @@ export default {
           <template slot="button-content" class="nav-link dropdown-toggle">
             <div class="nav-user mr-0">
               <span class="pro-user-name ml-1">
-                {{ $t("navbar.dropdown.name.text") }}
+                ようこそ
                 <i class="mdi mdi-chevron-down"></i>
               </span>
             </div>
           </template>
 
-          <b-dropdown-item href="#">
-            <i class="remixicon-settings-3-line"></i>
-            <span>{{ $t("navbar.dropdown.name.list.settings") }}</span>
-          </b-dropdown-item>
-
-          <b-dropdown-divider></b-dropdown-divider>
           <a class="dropdown-item" @click="logoutUser" href="jvascript: void(0);">
             <i class="fe-log-out mr-1"></i>
             <span>{{ $t("navbar.dropdown.name.list.logout") }}</span>

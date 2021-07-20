@@ -1,19 +1,25 @@
 import * as AWS from "aws-sdk";
 import * as Paho from "paho-mqtt";
 
-export const state = () => ({});
+export const state = () => ({
+  client: null
+});
 
-export const mutations = {};
+export const mutations = {
+  SET_CLIENT(state, newValue) {
+    state.client = newValue;
+  }
+};
 
 export const actions = {
-  async connect({ dispatch }, { deviceId } = {}) {
+  async connect({ dispatch, commit, state }, { deviceId, callback } = {}) {
+    dispatch("disconnect");
     const host = "azyj6m3vu5398-ats.iot.us-west-2.amazonaws.com";
     const clientId = randomString();
     const region = "us-west-2";
     const creds = await dispatch("auth/getCurrentCredentials", undefined, { root: true });
 
     const topic = `${creds.identityId}/${deviceId}`;
-    console.log(topic);
     var endpoint = SigV4Utils.getSignedUrl(host, region, creds);
     const client = new Paho.Client(endpoint, clientId);
     client.onMessageArrived = onMessageArrived;
@@ -23,16 +29,12 @@ export const actions = {
       mqttVersion: 4,
       onSuccess: function() {
         console.log("Connected to MQTT");
-
-        client.subscribe(
-          topic,
-
-          {
-            onSuccess: function() {
-              console.log("Subsribed to topic");
-            }
+        commit("SET_CLIENT", client);
+        client.subscribe(topic, {
+          onSuccess: function() {
+            console.log("Subsribed to topic");
           }
-        );
+        });
       },
       onFailure: function(e) {
         console.log(e);
@@ -44,11 +46,18 @@ export const actions = {
     }
 
     function onMessageArrived(message) {
-      console.log("onMessageArrived:" + message.payloadString);
+      JSON.parse(message.payloadString).forEach(p => {
+        if (p.name == "pressure") {
+          callback(p.value);
+        }
+      });
     }
-    // client.onMessageArrived = function(message) {
-    //   console.log(message);
-    // };
+  },
+
+  disconnect({ commit, state }) {
+    if (state.client != null) state.client.disconnect();
+    commit("SET_CLIENT", null);
+    console.log("Client disconnected");
   }
 };
 
@@ -93,56 +102,3 @@ function randomString() {
     .toString(36)
     .slice(-5);
 }
-// function SigV4Utils() {}
-
-// SigV4Utils.sign = function(key, msg) {
-//   var hash = CryptoJS.HmacSHA256(msg, key);
-//   return hash.toString(CryptoJS.enc.Hex);
-// };
-
-// SigV4Utils.sha256 = function(msg) {
-//   var hash = CryptoJS.SHA256(msg);
-//   return hash.toString(CryptoJS.enc.Hex);
-// };
-
-// SigV4Utils.getSignatureKey = function(key, dateStamp, regionName, serviceName) {
-//   var kDate = CryptoJS.HmacSHA256(dateStamp, "AWS4" + key);
-//   var kRegion = CryptoJS.HmacSHA256(regionName, kDate);
-//   var kService = CryptoJS.HmacSHA256(serviceName, kRegion);
-//   var kSigning = CryptoJS.HmacSHA256("aws4_request", kService);
-//   return kSigning;
-// };
-
-// function createEndpoint(regionName, awsIotEndpoint, accessKey, secretKey) {
-//   //   var time = moment.utc();
-//   //   var dateStamp = time.format('YYYYMMDD');
-//   var date = new Date();
-//   var dateStamp = `${date.getUTCFullYear()}${date.getUTCMonth() + 1}${date.getUTCDate()}`;
-//   //   var amzdate = dateStamp + 'T' + time.format('HHmmss') + 'Z';
-//   var amzdate = dateStamp + "T" + `${date.getUTCHours()}${date.getUTCMinutes()}${date.getUTCSeconds()}` + "Z";
-//   var service = "iotdevicegateway";
-//   var region = regionName;
-//   var secretKey = secretKey;
-//   var accessKey = accessKey;
-//   var algorithm = "AWS4-HMAC-SHA256";
-//   var method = "GET";
-//   var canonicalUri = "/mqtt";
-//   var host = awsIotEndpoint;
-
-//   var credentialScope = dateStamp + "/" + region + "/" + service + "/" + "aws4_request";
-//   var canonicalQuerystring = "X-Amz-Algorithm=AWS4-HMAC-SHA256";
-//   canonicalQuerystring += "&X-Amz-Credential=" + encodeURIComponent(accessKey + "/" + credentialScope);
-//   canonicalQuerystring += "&X-Amz-Date=" + amzdate;
-//   canonicalQuerystring += "&X-Amz-SignedHeaders=host";
-
-//   var canonicalHeaders = "host:" + host + "\n";
-//   var payloadHash = SigV4Utils.sha256("");
-//   var canonicalRequest = method + "\n" + canonicalUri + "\n" + canonicalQuerystring + "\n" + canonicalHeaders + "\nhost\n" + payloadHash;
-
-//   var stringToSign = algorithm + "\n" + amzdate + "\n" + credentialScope + "\n" + SigV4Utils.sha256(canonicalRequest);
-//   var signingKey = SigV4Utils.getSignatureKey(secretKey, dateStamp, region, service);
-//   var signature = SigV4Utils.sign(signingKey, stringToSign);
-
-//   canonicalQuerystring += "&X-Amz-Signature=" + signature;
-//   return "wss://" + host + canonicalUri + "?" + canonicalQuerystring;
-// }

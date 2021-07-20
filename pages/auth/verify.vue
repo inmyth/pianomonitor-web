@@ -37,7 +37,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       } else {
-        if (process.env.auth === "cognito") {
+        if (this.$config.auth === "cognito") {
           this.tryingToLogIn = true;
           this.authError = null;
           try {
