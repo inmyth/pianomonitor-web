@@ -67,5 +67,6 @@ export const actions = {
 };
 
 async function getAuthHeader(dispatch) {
-  return await dispatch("auth/getAuthToken", null, { root: true });
+  const session = await dispatch("auth/getAuthToken", null, { root: true });
+  return session.idToken.jwtToken;
 }

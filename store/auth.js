@@ -30,21 +30,20 @@ export const actions = {
 
   async getAuthToken({}) {
     try {
-      let session = await Auth.currentSession();
-      return session.idToken.jwtToken;
+      return await Auth.currentSession();
     } catch (error) {
       return null;
     }
   },
 
-  async isAuthenticated({ commit }) {
-    try {
-      await Auth.currentSession();
-      return true;
-    } catch (error) {
-      return false;
-    }
-  },
+  // async isAuthenticated({ commit }) {
+  //   try {
+  //     await Auth.currentSession();
+  //     return true;
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // },
 
   async getCurrentCredentials({ commit }) {
     try {
