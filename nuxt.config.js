@@ -1,5 +1,5 @@
 export default {
-  loading: "~/components/Load.vue",
+  loading: "~/components/Loading.vue",
   // router: {
   //   extendRoutes(routes) {
   //     routes.push({
