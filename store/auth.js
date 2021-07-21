@@ -90,17 +90,19 @@ export const actions = {
     }
   },
 
-  signOut({ commit }) {
-    return new Promise((resolve, reject) => {
-      Auth.signOut()
-        .then(_ => {
-          resolve(true);
-        })
-        .catch(error => {
-          console.log(error);
-          reject(this._handleError(error));
-        });
-    });
+  async signOut() {
+    return await Auth.signOut();
+
+    // return new Promise((resolve, reject) => {
+    //   Auth.signOut()
+    //     .then(_ => {
+    //       resolve(true);
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //       reject(this._handleError(error));
+    //     });
+    // });
   }
 };
 

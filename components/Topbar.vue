@@ -104,9 +104,9 @@ export default {
     /**
      * Logout user
      */
-    logoutUser() {
+    async logoutUser() {
       if (this.$config.auth === "cognito") {
-        this.$store.dispatch("auth/signOut");
+        await this.$store.dispatch("auth/signOut");
       } else if (process.env.auth === "fakebackend") {
         this.$store.dispatch("authfack/logout");
       }
