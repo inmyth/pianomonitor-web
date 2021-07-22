@@ -24,16 +24,16 @@ export default {
   mounted() {
     this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id, callback: this.callback });
   },
-  async created() {
-    window.addEventListener("beforeunload", this.beforeWindowUnload);
-  },
+  // async created() {
+  //   window.addEventListener("beforeunload", this.beforeWindowUnload);
+  // },
   beforeRouteLeave(to, from, next) {
     this.disconnectClient();
     next();
   },
-  beforeDestroy() {
-    window.removeEventListener("beforeunload", this.beforeWindowUnload);
-  },
+  // beforeDestroy() {
+  //   window.removeEventListener("beforeunload", this.beforeWindowUnload);
+  // },
   data() {
     return {
       title: "Graph",
@@ -98,14 +98,11 @@ export default {
         };
       }
     },
-    getRandomInt() {
-      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    },
-    beforeWindowUnload(e) {
-      this.disconnectClient();
-      e.returnValue = undefined;
-      return undefined;
-    },
+    // beforeWindowUnload(e) {
+    //   this.disconnectClient();
+    //   e.returnValue = undefined;
+    //   return undefined;
+    // },
     disconnectClient() {
       this.$store.dispatch("iot/disconnect");
     }
