@@ -24,8 +24,8 @@ export const actions = {
   // This is automatically run in `src/state/store.js` when the app
   // starts, along with any other actions named `init` in other modules.
   // eslint-disable-next-line no-unused-vars
-  init({ state, dispatch }) {
-    dispatch("isAuthenticated");
+  init({ dispatch }) {
+    dispatch("getAuthToken");
   },
 
   async getAuthToken({}) {
@@ -35,15 +35,6 @@ export const actions = {
       return null;
     }
   },
-
-  // async isAuthenticated({ commit }) {
-  //   try {
-  //     await Auth.currentSession();
-  //     return true;
-  //   } catch (error) {
-  //     return false;
-  //   }
-  // },
 
   async getCurrentCredentials({ commit }) {
     try {
@@ -80,7 +71,7 @@ export const actions = {
     const signinUser = getters.signinUser;
     commit("SET_SIGNIN_USER", null); // we have to do this because Auth is side effecting the input user
     await Auth.sendCustomChallengeAnswer(signinUser, code);
-    let success = await dispatch("isAuthenticated");
+    let success = await dispatch("getAuthToken");
     if (!success) {
       commit("SET_SIGNIN_USER", signinUser);
       throw "Authentication failed.";
@@ -91,25 +82,14 @@ export const actions = {
 
   async signOut() {
     return await Auth.signOut();
-
-    // return new Promise((resolve, reject) => {
-    //   Auth.signOut()
-    //     .then(_ => {
-    //       resolve(true);
-    //     })
-    //     .catch(error => {
-    //       console.log(error);
-    //       reject(this._handleError(error));
-    //     });
-    // });
   }
 };
 
-function saveState(key, state) {
-  if (process.browser) {
-    localStorage.setItem(key, JSON.stringify(state));
-  }
-}
+// function saveState(key, state) {
+//   if (process.browser) {
+//     localStorage.setItem(key, JSON.stringify(state));
+//   }
+// }
 
 function getRandomString(number) {
   const randomValues = new Uint8Array(number);
