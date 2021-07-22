@@ -32,6 +32,7 @@ export const actions = {
     try {
       return await Auth.currentSession();
     } catch (error) {
+      console.log(error);
       return null;
     }
   },
