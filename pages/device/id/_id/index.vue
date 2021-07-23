@@ -22,7 +22,7 @@ export default {
     LineChart
   },
   mounted() {
-    // this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id, callback: this.callback });
+    this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id, callback: this.callback });
   },
   // async created() {
   //   window.addEventListener("beforeunload", this.beforeWindowUnload);
