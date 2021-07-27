@@ -123,7 +123,7 @@ export default {
                 display: true,
                 scaleLabel: {
                   display: true,
-                  labelString: "C゜"
+                  labelString: "゜C"
                 },
                 borderDash: [5, 5],
                 gridLines: {
