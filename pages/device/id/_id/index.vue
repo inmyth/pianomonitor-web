@@ -66,9 +66,9 @@ export default {
           datasets: [
             {
               label: "温度",
-              backgroundColor: "#f87979",
+              backgroundColor: "rgb(246, 114, 167, 0.3)",
+              borderColor: "rgb(246, 114, 167)",
               backgroundColor: "transparent",
-
               data: []
             }
           ]
@@ -80,7 +80,6 @@ export default {
               label: "気圧",
               backgroundColor: "#3bafda",
               backgroundColor: "transparent",
-
               data: []
             }
           ]
@@ -277,9 +276,9 @@ export default {
           {
             label: "温度",
             data: dTemperature,
-            fill: false,
-            backgroundColor: "transparent",
-            borderColor: "#f672a7"
+            fill: true,
+            backgroundColor: "rgb(246, 114, 167, 0.3)",
+            borderColor: "rgb(246, 114, 167)"
           }
         ]
       };
