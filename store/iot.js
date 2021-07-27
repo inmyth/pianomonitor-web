@@ -46,11 +46,7 @@ export const actions = {
     }
 
     function onMessageArrived(message) {
-      JSON.parse(message.payloadString).forEach(p => {
-        if (p.name == "pressure") {
-          callback(p.value);
-        }
-      });
+      callback(JSON.parse(message.payloadString));
     }
   },
 
