@@ -65,8 +65,10 @@ export default {
           labels: [],
           datasets: [
             {
-              label: "Temperature",
+              label: "温度",
               backgroundColor: "#f87979",
+              backgroundColor: "transparent",
+
               data: []
             }
           ]
@@ -75,8 +77,10 @@ export default {
           labels: [],
           datasets: [
             {
-              label: "Pressure",
-              backgroundColor: "#f87979",
+              label: "気圧",
+              backgroundColor: "#3bafda",
+              backgroundColor: "transparent",
+
               data: []
             }
           ]
@@ -85,13 +89,15 @@ export default {
           labels: [],
           datasets: [
             {
-              label: "Humidity",
-              backgroundColor: "#f87979",
+              label: "湿度",
+              backgroundColor: "#1abc9c",
+              backgroundColor: "transparent",
+
               data: []
             }
           ]
         },
-        maxLength: 3600
+        maxLength: 50
         // currentStepsIndex: 0
       },
       options: {
@@ -271,7 +277,7 @@ export default {
           {
             label: "温度",
             data: dTemperature,
-            fill: true,
+            fill: false,
             backgroundColor: "transparent",
             borderColor: "#f672a7"
           }
@@ -284,9 +290,9 @@ export default {
           {
             label: "気圧",
             data: dPressure,
-            fill: true,
+            fill: false,
             backgroundColor: "transparent",
-            borderColor: "#f672a7"
+            borderColor: "#3bafda"
           }
         ]
       };
@@ -297,51 +303,12 @@ export default {
           {
             label: "湿度",
             data: dHumidity,
-            fill: true,
+            fill: false,
             backgroundColor: "transparent",
-            borderColor: "#f672a7"
+            borderColor: "#1abc9c"
           }
         ]
       };
-
-      // this.chartData.source.xlabel = xlabel;
-      // this.chartData.temperature.data.labels = xlabel;
-      // this.chartData.source.temperature = dTemperature;
-      // this.chartData.temperature.data.datasets.data = dTemperature;
-      // this.chartData.temperature.data.labels = xlabel;
-
-      // if (this.data.datasets[0].data.length < 600) {
-      //   let d = [...this.data.datasets[0].data];
-      //   d.push(v);
-      //   this.data = {
-      //     labels: Array(600)
-      //       .fill()
-      //       .map((_, i) => i + 1),
-      //     datasets: [
-      //       {
-      //         label: "温度",
-      //         backgroundColor: "#f87979",
-      //         data: d
-      //       }
-      //     ]
-      //   };
-      // } else {
-      //   let d = [...this.data.datasets[0].data];
-      //   d.shift();
-      //   d.push(v);
-      //   this.data = {
-      //     labels: Array(600)
-      //       .fill()
-      //       .map((_, i) => i + 1),
-      //     datasets: [
-      //       {
-      //         label: "Data One",
-      //         backgroundColor: "#f87979",
-      //         data: d
-      //       }
-      //     ]
-      //   };
-      // }
     },
     // beforeWindowUnload(e) {
     //   this.disconnectClient();
