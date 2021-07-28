@@ -32,9 +32,15 @@
         </div>
         <div class="media mb-3">
           <div class="media-body">
+            <p class="mb-1">証明書</p>
             <h5 class="mt-0">
               <p>
-                <b-button variant="primary" @click="dowloadCert">デバイスの証明書</b-button>
+                <a href="javascript:void(0);" @click="dowloadCert"> デバイスの証明書<i class="mdi mdi-download"></i></a>
+              </p>
+              <p>
+                <a href="https://www.amazontrust.com/repository/AmazonRootCA1.pem" target="_blank" download>Root CA (RSA 2048)<i class="mdi mdi-file"></i></a>,
+
+                <a href="https://www.amazontrust.com/repository/AmazonRootCA3.pem" target="_blank">Root CA (ECC 256) <i class="mdi mdi-file"></i></a>
               </p>
             </h5>
           </div>
