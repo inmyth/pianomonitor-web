@@ -13,14 +13,17 @@ export const mutations = {
 export const actions = {
   async refreshDevices({ commit, dispatch }, {} = {}) {
     try {
+      dispatch("progress/fire", {}, { root: true });
       const res = await axios({
         method: "GET",
         url: `${this.$config.gatewayEndpoint}/device/list`,
         headers: { Authorization: await getAuthHeader(dispatch) }
       });
       commit("SET_DEVICES", res.data);
+      dispatch("progress/success", {}, { root: true });
       return true;
     } catch (error) {
+      dispatch("progress/clear", {}, { root: true });
       dispatch("notification/error", `エラーが発生しました：${error}`, { root: true });
       return false;
     }
@@ -57,6 +60,23 @@ export const actions = {
     } catch (error) {
       dispatch("notification/error", `エラーが発生しました：${error}`, { root: true });
       return false;
+    }
+  },
+
+  async getDevice({ dispatch }, { deviceId } = {}) {
+    try {
+      dispatch("progress/fire", {}, { root: true });
+      const res = await axios({
+        method: "GET",
+        url: `${this.$config.gatewayEndpoint}/device/get?deviceId=${deviceId}`,
+        headers: { Authorization: await getAuthHeader(dispatch) }
+      });
+      dispatch("progress/success", {}, { root: true });
+      return res.data;
+    } catch (error) {
+      dispatch("progress/clear", {}, { root: true });
+      dispatch("notification/error", `エラーが発生しました：${error}`, { root: true });
+      return null;
     }
   },
 

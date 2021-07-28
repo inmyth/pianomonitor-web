@@ -187,45 +187,6 @@ export default {
 
 <template>
   <div>
-    <div class="topnav">
-      <div class="container-fluid">
-        <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
-          <div class="collapse navbar-collapse" id="topnav-menu-content">
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown" v-for="(item, index) of menuItems" :key="index">
-                <nuxt-link tag="a" v-if="!item.subItems" :to="item.link" class="nav-link dropdown-toggle arrow-none side-nav-link-ref">
-                  <i :class="`${item.icon} mr-1`"></i>
-                  {{ $t(item.label) }}
-                </nuxt-link>
-
-                <a v-if="item.subItems" class="nav-link dropdown-toggle arrow-none" @click="onMenuClick" href="javascript: void(0);" id="topnav-components" role="button">
-                  <i :class="`${item.icon} mr-1`"></i>
-                  {{ $t(item.label) }}
-                  <div class="arrow-down"></div>
-                </a>
-                <div class="dropdown-menu row" aria-labelledby="topnav-dashboard" v-if="hasItems(item)">
-                  <template v-for="(subitem, index) of item.subItems">
-                    <nuxt-link :key="index" class="col dropdown-item side-nav-link-ref" v-if="!hasItems(subitem)" :to="subitem.link">{{ $t(subitem.label) }}</nuxt-link>
-                    <div class="dropdown" v-if="hasItems(subitem)" :key="index">
-                      <a class="dropdown-item dropdown-toggle" href="javascript: void(0);" @click="onMenuClick">
-                        {{ $t(subitem.label) }}
-                        <div class="arrow-down"></div>
-                      </a>
-                      <div class="dropdown-menu">
-                        <nuxt-link v-for="(subSubitem, index) of subitem.subItems" :key="index" :to="subSubitem.link" class="dropdown-item side-nav-link-ref">{{ $t(subSubitem.label) }}</nuxt-link>
-                      </div>
-                    </div>
-                  </template>
-                </div>
-              </li>
-            </ul>
-            <!-- end navbar-->
-          </div>
-          <!-- end .collapsed-->
-        </nav>
-      </div>
-      <!-- end container-fluid -->
-    </div>
     <!-- end topnav-->
   </div>
 </template>

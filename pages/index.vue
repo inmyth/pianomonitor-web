@@ -1,14 +1,17 @@
 <template>
   <div class="container">
     <PageHeader :title="title" :items="items" />
-    <div class="card">
+    <content-placeholders v-if="isLoading">
+      <content-placeholders-text :lines="4" />
+    </content-placeholders>
+    <div class="card" v-else>
       <div class="card-body">
         <div class="row">
           <div class="col-lg-8"></div>
           <div class="col-lg-4">
             <div class="text-lg-right mt-3 mt-lg-0">
               <NuxtLink :to="localePath({ name: 'device-new' })">
-                <a class="btn text-white btn-primary"><i class="mdi mdi-plus-circle mr-1"></i> Add New </a>
+                <a class="btn text-white btn-primary"><i class="mdi mdi-plus-circle mr-1"></i> 新デバイス </a>
               </NuxtLink>
             </div>
           </div>
@@ -16,7 +19,7 @@
         </div>
         <p class="sub-header"></p>
 
-        <b-table fixed class="minimal text-left" :items="devices" :fields="fields" show-empty>
+        <b-table class="minimal text-left" :items="devices" :fields="fields" show-empty>
           <template #empty>
             <h5>登録済デバイスは無いです。</h5>
           </template>
@@ -26,8 +29,11 @@
           <template #cell(created)="data">
             {{ tsToString(data.item.creationTs) }}
           </template>
+          <template #cell(config)="data">
+            <NuxtLink :to="localePath({ name: 'device-id-id-config', params: { id: data.item.deviceId } })"><i class="ri-settings-2-line "></i></NuxtLink>
+          </template>
           <template #cell(delete)="data">
-            <a href="javascript:void(0);" class="action-icon px-1" v-b-modal="'delModal'" @click="openDelModal(data.item.deviceId, data.item.deviceName)"> <i class="fe-x"></i></a>
+            <a href="javascript:void(0);" v-b-modal="'delModal'" @click="openDelModal(data.item.deviceId, data.item.deviceName)"> <i class=" ri-delete-bin-line "></i></a>
           </template>
         </b-table>
       </div>
@@ -43,9 +49,9 @@
  * Basic Tables component
  */
 export default {
-  mounted() {
-    this.isLoading = true;
-    this.$store.dispatch("service/refreshDevices");
+  async mounted() {
+    await this.$store.dispatch("service/refreshDevices");
+    this.isLoading = false;
   },
   head() {
     return {
@@ -68,13 +74,14 @@ export default {
     return {
       title: "ダッシュボード",
       items: [],
+      isLoading: true,
       fields: [
         { key: "name", label: "Name", sortable: true },
         { key: "created", label: "Date", sortable: true },
+        { key: "config", label: "", sortable: false, tdClass: "text-right" },
         { key: "delete", label: "", sortable: false, tdClass: "text-right" }
       ],
       devices: [],
-      // isEmpty: false,
       toDelete: {
         id: null,
         name: null

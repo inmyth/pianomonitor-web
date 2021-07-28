@@ -34,7 +34,8 @@ export default {
         isPublicKeyDownloaded: false,
         publicKey: "",
         privateKey: "",
-        cert: ""
+        cert: "",
+        topic: ""
       },
       isProcessing: false,
       isFirstPage: true
@@ -62,6 +63,7 @@ export default {
           this.secondPage.privateKey = res.privateKey;
           this.secondPage.publicKey = res.publicKey;
           this.secondPage.cert = res.certificatePem;
+          this.secondPage.topic = res.topic;
         }
       }
     },
@@ -134,6 +136,12 @@ export default {
 
         <p>
           ECC 256 ビットキー: <a href="https://www.amazontrust.com/repository/AmazonRootCA3.pem" target="_blank">Amazon Root CA 3<i class="mdi mdi-file"></i>。</a>
+        </p>
+        <p>
+          以下のトピックにSubscribe又はPublishをしてください。
+        </p>
+        <p>
+          <code>{{ secondPage.topic }}</code>
         </p>
         <p>
           <NuxtLink to="/">

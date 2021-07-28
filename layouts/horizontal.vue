@@ -12,6 +12,10 @@ export default {
         msg: "",
         bg: "bg-success",
         show: false
+      },
+      progress: {
+        visible: false,
+        value: 0
       }
     };
   },
@@ -33,6 +37,15 @@ export default {
         this.alert.show = 3;
 
         return s;
+      },
+      immediate: true,
+      deep: true
+    },
+    "$store.state.progress": {
+      handler() {
+        let s = this.$store.state.progress;
+        this.progress.visible = s.visible;
+        this.progress.value = s.value;
       },
       immediate: true,
       deep: true
@@ -73,6 +86,7 @@ export default {
     <div class="content-page">
       <div class="content">
         <div class="container-fluid">
+          <b-progress v-if="progress.visible" :value="progress.value" variant="primary"></b-progress>
           <b-alert :show="alert.show" fade dismissible class="text-white border-0" :class="alert.bg" @dismissed="dismissNotification"> {{ alert.msg }}</b-alert>
           <Nuxt />
         </div>

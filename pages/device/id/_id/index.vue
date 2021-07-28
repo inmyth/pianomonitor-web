@@ -1,25 +1,31 @@
 <template>
   <div class="container">
     <PageHeader :title="title" :items="items" />
-    <div class="card">
-      <div class="card-body">
-        <h4 class="header-title mb-4">温度</h4>
-        <LineChart :height="350" :chart-data="chartData.temperature" :options="options.temperature" />
+    <content-placeholders v-if="!title">
+      <content-placeholders-text :lines="4" />
+    </content-placeholders>
+    <template v-else>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title mb-4">温度</h4>
+          <LineChart :height="350" :chart-data="chartData.temperature" :options="options.temperature" />
+        </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-body">
-        <h4 class="header-title mb-4">気圧</h4>
-        <LineChart :height="350" :chart-data="chartData.pressure" :options="options.pressure" />
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title mb-4">気圧</h4>
+          <LineChart :height="350" :chart-data="chartData.pressure" :options="options.pressure" />
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <h4 class="header-title mb-4">湿度</h4>
-        <LineChart :height="350" :chart-data="chartData.humidity" :options="options.humidity" />
+
+      <div class="card">
+        <div class="card-body">
+          <h4 class="header-title mb-4">湿度</h4>
+          <LineChart :height="350" :chart-data="chartData.humidity" :options="options.humidity" />
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
@@ -49,7 +55,7 @@ export default {
   // },
   data() {
     return {
-      title: "",
+      title: null,
       items: [
         {
           text: "ダッシュボード",
@@ -60,6 +66,7 @@ export default {
           href: "/"
         }
       ],
+
       chartData: {
         temperature: {
           labels: [],
@@ -91,20 +98,17 @@ export default {
               label: "湿度",
               backgroundColor: "#1abc9c",
               backgroundColor: "transparent",
-
               data: []
             }
           ]
         },
-        maxLength: 50
-        // currentStepsIndex: 0
+        maxLength: 100
       },
       options: {
         temperature: {
           type: "line",
           responsive: true,
           maintainAspectRatio: false,
-
           scales: {
             xAxes: [
               {
@@ -137,7 +141,6 @@ export default {
           type: "line",
           responsive: true,
           maintainAspectRatio: false,
-
           scales: {
             xAxes: [
               {
