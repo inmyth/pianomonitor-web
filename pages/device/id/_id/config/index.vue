@@ -33,7 +33,7 @@
         <div class="media mb-3">
           <div class="media-body">
             <p class="mb-1">証明書</p>
-            <h5 class="mt-0">
+            <div class="mt-0">
               <p>
                 <a href="javascript:void(0);" @click="dowloadCert"> デバイスの証明書<i class="mdi mdi-download"></i></a>
               </p>
@@ -42,7 +42,7 @@
 
                 <a href="https://www.amazontrust.com/repository/AmazonRootCA3.pem" target="_blank">Root CA (ECC 256) <i class="mdi mdi-file"></i></a>
               </p>
-            </h5>
+            </div>
           </div>
         </div>
       </div>
