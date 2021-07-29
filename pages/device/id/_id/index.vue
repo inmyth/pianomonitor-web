@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <PageHeader :title="title" :items="items" />
-    <content-placeholders v-if="!title">
-      <content-placeholders-text :lines="4" />
-    </content-placeholders>
-    <template v-else>
+    <template>
       <div class="card">
         <div class="card-body">
           <h4 class="header-title mb-4">温度</h4>
@@ -41,7 +38,7 @@ export default {
     LineChart
   },
   mounted() {
-    this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id, callback: this.callback });
+    this.$store.dispatch("iot/connect", { deviceId: this.$route.params.id, callback: this.callback, connectionFailedCallback: this.connectionFailedCallback });
   },
   // async created() {
   //   window.addEventListener("beforeunload", this.beforeWindowUnload);
