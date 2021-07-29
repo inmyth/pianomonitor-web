@@ -140,17 +140,6 @@ export default {
 
       <!-- LOGO -->
       <div class="logo-box">
-        <nuxt-link to="/" class="logo logo-dark text-center">
-          <span class="logo-sm">
-            <img src="~/assets/images/logo-sm-dark.png" alt height="24" />
-            <!-- <span class="logo-lg-text-light">Minton</span> -->
-          </span>
-          <span class="logo-lg">
-            <img src="~/assets/images/logo-dark.png" alt height="20" />
-            <!-- <span class="logo-lg-text-light">M</span> -->
-          </span>
-        </nuxt-link>
-
         <nuxt-link to="/" class="logo logo-light text-center">
           <span class="logo-sm">
             <img src="~/assets/images/logo-sm.png" alt height="24" />
