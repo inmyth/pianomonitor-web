@@ -30,11 +30,11 @@
       "function": {
         "S3Trigger5a2639ff": {
           "deploymentBucketName": "amplify-pianomonitorweb-dev-204517-deployment",
-          "s3Key": "amplify-builds/S3Trigger5a2639ff-416f666970356a6c5942-build.zip"
+          "s3Key": "amplify-builds/S3Trigger5a2639ff-6b573532756658304548-build.zip"
         },
         "S3Trigger30cd843c": {
           "deploymentBucketName": "amplify-pianomonitorweb-dev-204517-deployment",
-          "s3Key": "amplify-builds/S3Trigger30cd843c-596369437156436a594f-build.zip"
+          "s3Key": "amplify-builds/S3Trigger30cd843c-464942514e466c414676-build.zip"
         }
       }
     }

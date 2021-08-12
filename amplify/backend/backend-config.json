@@ -20,21 +20,5 @@
       "build": true
     }
   },
-  "storage": {
-    "pianomonitor": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "S3Trigger30cd843c",
-          "attributes": [
-            "Name",
-            "Arn",
-            "LambdaExecutionRole"
-          ]
-        }
-      ]
-    }
-  }
+  "storage": {}
 }
